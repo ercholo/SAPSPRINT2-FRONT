@@ -1,6 +1,5 @@
 import React from 'react';
-
-
+import { BotonActualizar, BotonEstado, BotonPausa, BotonReanuda, BotonDesviar } from './';
 
 //Funcion para crear las futuras filas (rows)
 function createData(nameImpresora, numTrabajos, numAlmacen, ip) {
@@ -33,7 +32,6 @@ export const TablaGranada = React.memo(() => {
         <tr>
           <th scope="col">Impresora</th>
           <th scope="col">Trabajos</th>
-          <th scope="col">Almacén</th>
           <th scope="col">Actualizar</th>
           <th scope="col">Pausar</th>
           <th scope="col">Reanudar</th>
@@ -46,12 +44,11 @@ export const TablaGranada = React.memo(() => {
           <tr key={impresora.nameImpresora}>
             <td>{impresora.nameImpresora}</td>
             <td>{impresora.numTrabajos}</td>
-            <td>{impresora.numAlmacen}</td>
-            <td>{impresora.ip}</td>
-            <td>{impresora.ip}</td>
-            <td>{impresora.ip}</td>
-            <td>{impresora.ip}</td>
-            <td>{impresora.ip}</td>
+            <td>{<BotonActualizar printer={impresora.nameImpresora} />}</td>
+            <td>{<BotonPausa printer={impresora.nameImpresora} />}</td>
+            <td>{<BotonReanuda printer={impresora.nameImpresora} />}</td>
+            <td>{<BotonEstado printer={impresora.nameImpresora} />}</td>
+            <td>{<BotonDesviar printer={impresora.nameImpresora} />}</td>
           </tr>
         ))}
       </tbody>
