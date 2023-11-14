@@ -1,55 +1,71 @@
 import { useState } from "react";
-import { useKeycloak } from '@react-keycloak/web'
+import { useKeycloak } from '@react-keycloak/web';
 
-export const usePausar = (printer, accion) => {
+export const usePausar = (printer, accion, printerDestino) => {
 
     const { keycloak } = useKeycloak();
 
-    const [state, setState] = useState({
+    console.log(`use pausar ${printerDestino}`)
 
+    const initialState = {
         data: null,
         isLoading: false,
         hasError: null,
+        isOk: false,
+    };
 
-    });
+    const [state, setState] = useState(initialState);
+    const [alert, setAlert] = useState(false);
 
-    const getFetch = async () => {
-
+    const fetchData = async (url) => {
         setState({
-            ...state,
+            ...initialState,
             isLoading: true,
         });
 
         try {
-
-            const res = await fetch(`http://172.30.5.181:16665/impresoras/${printer}/${accion}`, {
+            const res = await fetch(url, {
                 method: 'GET',
                 headers: {
-                    'Authorization': `Bearer ${keycloak.token}`
-                }
+                    'Authorization': `Bearer ${keycloak.token}`,
+                },
             });
 
             const data = await res.json();
-            console.log(data)
+            console.log(data);
 
             setState({
                 data,
                 isLoading: false,
                 hasError: null,
+                isOk: data.ok,
             });
 
+            setAlert(data.ok);
+
         } catch (error) {
-            console.log(error);
+            console.error(error);
+            setState({
+                ...initialState,
+                hasError: error.message,
+            });
         }
+    };
 
-    }
+    const getFetch = () => fetchData(`http://172.30.5.181:16665/impresoras/${printer}/${accion}`);
 
-    return ({
+    const getFetchDesviar = (printerDestino) =>
+    
+        fetchData(`http://172.30.5.181:16665/impresoras/${printer}/${printerDestino}/${accion}`);
+
+    return {
         getFetch,
+        getFetchDesviar,
         data: state.data,
         isLoading: state.isLoading,
-        hasError: state.hasError,
-
-    });
-
-}
+        isOk: state.isOk,
+        alert,
+        setAlert,
+        error: state.hasError,
+    };
+};

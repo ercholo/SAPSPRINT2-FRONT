@@ -1,26 +1,54 @@
-import { memo } from 'react';
+import { memo, useState } from 'react';
+import { useKeycloak } from '@react-keycloak/web'
 import PropTypes from 'prop-types';
-import { usePausar } from '../hooks/usePausar';
+import { Spinner } from '../ui/components';
 
 //uso el memo para que no renderice los botones cuando el componente padre (tablaPrincipal) cambia el estado actualizando la tabla
-export const BotonActualizar = memo(({ printer }) => {
+export const BotonActualizar = memo(({ printer, recibirDatos }) => {
 
-    const { getFetch, data, isLoading } = usePausar(printer, '');
+    const { keycloak } = useKeycloak();
+
+    const [loading, setLoading] = useState(false);
 
     const onActualizar = async () => {
-        await getFetch();
-        console.log(data)
+
+        setLoading(true);
+
+        try {
+
+            const res = await fetch(`http://172.30.5.181:16665/impresoras/${printer}`, {
+                method: 'GET',
+                headers: {
+                    'Authorization': `Bearer ${keycloak.token}`
+                }
+            });
+
+            const data = await res.json();
+
+            recibirDatos(data)
+            // console.log(data)
+
+            setLoading(false);
+
+        } catch (error) {
+            console.log(error);
+        }
+
+
     }
 
     return (
-        <button
-            type="button"
-            className="btn btn-outline-success"
-            disabled={ isLoading }
-            onClick={ onActualizar }
-        >
-            <i className="bi bi-cloud-download-fill"></i>
-        </button>
+        <>
+            <button
+                type="button"
+                className="btn btn-outline-success"
+                disabled={loading}
+                onClick={onActualizar}
+            >
+                <i className="bi bi-cloud-download-fill"></i>
+            </button>
+            {loading ? <Spinner loading={loading} /> : null}
+        </>
     )
 });
 
@@ -29,4 +57,5 @@ export default BotonActualizar;
 
 BotonActualizar.propTypes = {
     printer: PropTypes.string,
+    recibirDatos: PropTypes.func
 }

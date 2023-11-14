@@ -4,17 +4,11 @@ import PropTypes from 'prop-types';
 
 export const UserProvider = ({ children }) => {
 
-    // const user = {
-    //     id: 123,
-    //     name: "Gregor",
-    //     mail: "goyo_ON@yahoo.es"
-    // }
-
-    const [user, setUser] = useState();
+    const [estado, setEstado] = useState({});
 
     return (
         // <UserContext.Provider value={{ hola: 'Mundo', user }}>
-        <UserContext.Provider value={{ user, setUser }}>
+        <UserContext.Provider value={{ estado, setEstado }}>
             {children}
         </UserContext.Provider>
     )

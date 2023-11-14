@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useCallback, useEffect, useState } from 'react';
 import { BotonActualizar, BotonEstado, BotonPausa, BotonReanuda, BotonDesviar } from './';
 
 
@@ -22,7 +22,24 @@ const impresorasMelilla = [
 
 export const TablaMelilla = React.memo(() => {
 
+  const [, setValor] = useState({});
 
+  const recibirDatosActualizados = useCallback((data) => {
+
+    console.log(data);
+
+    impresorasMelilla.find(printer => {
+      //Si la impresora coincide y los datos son distintos de los que ya teníamos entonces tralarí 
+      if (data?.impresora === printer.nameImpresora) {
+        printer.numTrabajos = data.valor
+      }
+      setValor(() => data)
+    });
+  }, []);
+
+  useEffect(() => {
+    recibirDatosActualizados();
+  }, [recibirDatosActualizados]);
 
   return (
 
@@ -43,7 +60,7 @@ export const TablaMelilla = React.memo(() => {
           <tr key={impresora.nameImpresora}>
           <td>{impresora.nameImpresora}</td>
           <td>{impresora.numTrabajos}</td>
-          <td>{<BotonActualizar printer={impresora.nameImpresora} />}</td>
+          <td>{<BotonActualizar printer={impresora.nameImpresora} recibirDatos={recibirDatosActualizados} />}</td>
           <td>{<BotonPausa printer={impresora.nameImpresora} />}</td>
           <td>{<BotonReanuda printer={impresora.nameImpresora} />}</td>
           <td>{<BotonEstado printer={impresora.nameImpresora} />}</td>
