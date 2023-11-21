@@ -1,5 +1,5 @@
 import React, { useCallback, useEffect, useState } from 'react';
-import { BotonActualizar, BotonEstado, BotonPausa, BotonReanuda, BotonDesviar } from './';
+import { BotonActualizar, BotonEstado, BotonPausa, BotonReanuda, BotonDesviar } from '.';
 
 //Funcion para crear las futuras filas (rows)
 function createData(nameImpresora, numTrabajos, numAlmacen, ip, nombreCorto) {
@@ -7,25 +7,32 @@ function createData(nameImpresora, numTrabajos, numAlmacen, ip, nombreCorto) {
 }
 
 //Llamada a la funcion que genera las filas pasándole datos de relleno iniciales
-const impresorasGranada = [
-  createData('18ALAV101', 0, 'RG18', '172.30.120.246'),
-  createData('18ALAV102', 0, 'RG18', '172.30.120.243'),
-  createData('18ALAV201', 0, 'RG18', '172.30.120.246'),
-  createData('18ALAV202', 0, 'RG18', '172.30.120.243'),
-  createData('18ALDEV01', 0, 'RG18', '172.30.120.247'),
-  createData('18ALEXP01', 0, 'RG18', '172.30.120.245'),
-  createData('18ALJEF01', 0, 'RG18', '172.30.120.248'),
-  createData('18ATTOM01', 0, 'RG18', '172.30.120.249'),
-  createData('18ATTOM02', 0, 'RG18', '172.30.120.244')
+const impresoraSantomera = [
+  createData('01ALAV101', 0, 'RG01', '172.30.2.51', 'AV11'),
+  createData('01ALAV102', 0, 'RG01', '172.30.2.50', 'I02Z'),
+  createData('01ALAV201', 0, 'RG01', '172.30.2.52', 'AV21'),
+  createData('01ALAV202', 0, 'RG01', '172.30.2.56', 'I02C'),
+  createData('01ALDEV01', 0, 'RG01', '172.30.2.91', 'I02B'),
+  createData('01ALENT01', 0, 'RG01', '172.30.2.40'),
+  createData('01ALJEF01', 0, 'RG01', '172.30.2.58'),
+  createData('01ALPSI01', 0, 'RG01', '172.30.2.46', 'I022'),
+  createData('01ALPYE01', 0, 'RG01', '172.30.2.5'),
+  createData('01ALPYE02', 0, 'RG01', '172.30.2.34', 'I027'),
+  createData('01ALSAA01', 0, 'RG01', '172.30.2.23', 'IO2U'),
+  createData('01ALSAF01', 0, 'RG01', '172.30.2.33', 'I02D'),
+  createData('01ALSAL01', 0, 'RG01', '172.30.2.12', 'I03R'),
+  createData('01ATTOM01', 0, 'RG01', '172.30.2.35', 'I02F'),
+  createData('01ATTOM02', 0, 'RG01', '172.30.2.120', 'I02J'),
+  createData('01ALPLA01', 0, 'RG01', '172.30.2.66', 'I02P')
 ]
- 
-export const TablaGranada = React.memo(() => {
+
+export const TablaSantomera = React.memo(() => {
 
   const [, setValor] = useState({});
 
   const recibirDatosActualizados = useCallback((data) => {
 
-    impresorasGranada.find(printer => {
+    impresoraSantomera.find(printer => {
       //Si la impresora coincide y los datos son distintos de los que ya teníamos entonces tralarí 
       if (data?.impresora === printer.nameImpresora) {
         printer.numTrabajos = data.valor
@@ -53,7 +60,7 @@ export const TablaGranada = React.memo(() => {
         </tr>
       </thead>
       <tbody>
-        {impresorasGranada.map((impresora) => (
+        {impresoraSantomera.map((impresora) => (
           <tr key={impresora.nameImpresora}>
             <td>{impresora.nameImpresora}</td>
             <td>{impresora.numTrabajos}</td>
@@ -69,4 +76,4 @@ export const TablaGranada = React.memo(() => {
   );
 });
 
-TablaGranada.displayName = 'TablaGranada';
+TablaSantomera.displayName = 'TablaSantomera';

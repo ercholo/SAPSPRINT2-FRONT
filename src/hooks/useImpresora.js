@@ -1,11 +1,12 @@
 import { useState } from "react";
 import { useKeycloak } from '@react-keycloak/web';
 
-export const usePausar = (printer, accion, printerDestino) => {
-
+export const useImpresora = (printer) => {
+    
     const { keycloak } = useKeycloak();
 
-    console.log(`use pausar ${printerDestino}`)
+     // Si empieza por 16, 17 o 18 entonces el servidor es sapsprint2
+    const server = printer.startsWith('16') || printer.startsWith('17') || printer.startsWith('18') ? 'sapsprint2' : 'sapsprint';
 
     const initialState = {
         data: null,
@@ -18,6 +19,7 @@ export const usePausar = (printer, accion, printerDestino) => {
     const [alert, setAlert] = useState(false);
 
     const fetchData = async (url) => {
+        
         setState({
             ...initialState,
             isLoading: true,
@@ -32,15 +34,14 @@ export const usePausar = (printer, accion, printerDestino) => {
             });
 
             const data = await res.json();
-            console.log(data);
-
+            
             setState({
                 data,
                 isLoading: false,
                 hasError: null,
                 isOk: data.ok,
             });
-
+            
             setAlert(data.ok);
 
         } catch (error) {
@@ -50,17 +51,28 @@ export const usePausar = (printer, accion, printerDestino) => {
                 hasError: error.message,
             });
         }
+        
     };
 
-    const getFetch = () => fetchData(`http://172.30.5.181:16665/impresoras/${printer}/${accion}`);
+    const actualiza = () => fetchData(`http://172.30.5.181:16665/impresoras/${printer}/${server}`);
 
-    const getFetchDesviar = (printerDestino) =>
-    
-        fetchData(`http://172.30.5.181:16665/impresoras/${printer}/${printerDestino}/${accion}`);
+    const pausa = () => fetchData(`http://172.30.5.181:16665/impresoras/${printer}/${server}/pausa`);
+
+    const reanuda = () => fetchData(`http://172.30.5.181:16665/impresoras/${printer}/${server}/reanuda`);
+
+    const estado = () => fetchData(`http://172.30.5.181:16665/impresoras/${printer}/${server}/estado`);
+
+    const restablece = () => fetchData(`http://172.30.5.181:16665/impresoras/${printer}/${server}/desviarImpresoraOriginal`);
+
+    const desviar = (printerDestino) => fetchData(`http://172.30.5.181:16665/impresoras/${printer}/${printerDestino}/${server}/desviar`);
 
     return {
-        getFetch,
-        getFetchDesviar,
+        actualiza,
+        pausa,
+        reanuda,
+        estado,
+        restablece,
+        desviar,
         data: state.data,
         isLoading: state.isLoading,
         isOk: state.isOk,

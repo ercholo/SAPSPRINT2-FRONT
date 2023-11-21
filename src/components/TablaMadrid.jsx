@@ -1,29 +1,33 @@
 import React, { useCallback, useEffect, useState } from 'react';
-import { BotonActualizar, BotonEstado, BotonPausa, BotonReanuda, BotonDesviar } from './';
+import { BotonActualizar, BotonEstado, BotonPausa, BotonReanuda, BotonDesviar } from '.';
 
 //Funcion para crear las futuras filas (rows)
 function createData(nameImpresora, numTrabajos, numAlmacen, ip, nombreCorto) {
   return { nameImpresora, numTrabajos, numAlmacen, ip, nombreCorto };
 }
 
-//Llamada a la funcion que genera las filas pasándole datos de relleno iniciales
-const impresorasTortosa = [
-  createData('16ALAV101', 0, 'RG16', '172.30.141.243'),
-  createData('16ALAV201', 0, 'RG16', '172.30.141.245'),
-  createData('16ALAV102', 0, 'RG16', '172.30.141.244'),
-  createData('16ALAV202', 0, 'RG16', '172.30.141.246'),
-  createData('16ALDEV01', 0, 'RG16', '172.30.141.247'),
-  createData('16ALEXP01', 0, 'RG16', '172.30.141.248'),
-  createData('16ALJEF01', 0, 'RG16', '172.30.141.249'),
+//Creamos las filas
+const impresorasMadrid = [
+  createData('04COGER01', 0, 'RG04', '172.30.133.68',''),
+  createData('04ALDEV01', 0, 'RG04', '172.30.132.212','I04B'),
+  createData('04ALCSK01', 0, 'RG04', '172.30.132.217','I04S'),
+  createData('04ATTOM01', 0, 'RG04', '172.30.132.210','I04A'),
+  createData('04ALEXP01', 0, 'RG04', '172.30.132.219','I04P'),
+  createData('04ALJEF02', 0, 'RG04', '172.30.132.211','I04T'),
+  createData('04COGER02', 0, 'RG04', '172.30.132.215','I04C'),
+  createData('04COVEN01', 0, 'RG04', '172.30.132.214','I04G'),
+  createData('04ADCOM01', 0, 'RG04', '172.30.132.221','I04H'),
+  createData('04ALJEF01', 0, 'RG04', '172.30.132.216','I04J'),
+  createData('04ALREC01', 0, 'RG04', '172.30.132.220','I04Z'),
 ]
 
-export const TablaTortosa = React.memo(() => {
+export const TablaMadrid = React.memo(() => {
 
   const [, setValor] = useState({});
 
   const recibirDatosActualizados = useCallback((data) => {
 
-    impresorasTortosa.find(printer => {
+    impresorasMadrid.find(printer => {
       //Si la impresora coincide y los datos son distintos de los que ya teníamos entonces tralarí 
       if (data?.impresora === printer.nameImpresora) {
         printer.numTrabajos = data.valor
@@ -51,7 +55,7 @@ export const TablaTortosa = React.memo(() => {
         </tr>
       </thead>
       <tbody>
-        {impresorasTortosa.map((impresora) => (
+        {impresorasMadrid.map((impresora) => (
           <tr key={impresora.nameImpresora}>
           <td>{impresora.nameImpresora}</td>
           <td>{impresora.numTrabajos}</td>
@@ -67,4 +71,4 @@ export const TablaTortosa = React.memo(() => {
   );
 });
 
-TablaTortosa.displayName = 'TablaTortosa';
+TablaMadrid.displayName = 'TablaMadrid';

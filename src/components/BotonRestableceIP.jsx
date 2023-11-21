@@ -1,5 +1,5 @@
 import { memo } from 'react';
-import { usePausar } from '../hooks/usePausar';
+import { useImpresora } from '../hooks/useImpresora';
 // import { DialogDesviar } from './';
 import { SnackbarAlert, Spinner } from '../ui/components';
 import PropTypes from 'prop-types';
@@ -7,10 +7,10 @@ import PropTypes from 'prop-types';
 //uso el memo para que no renderice los botones cuando el componente padre (tablaPrincipal) cambia el estado actualizando la tabla
 export const BotonRestableceIP = memo(({ printer, isDisabled }) => {
 
-    const { getFetch, isLoading, alert, setAlert } = usePausar(printer, 'desviarImpresoraOriginal');
+    const { restablece, isLoading, alert, setAlert } = useImpresora(printer, '');
 
     const onRestablecer = async () => {
-        await getFetch();
+        await restablece();
     };
 
     return (

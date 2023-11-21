@@ -1,31 +1,29 @@
 import React, { useCallback, useEffect, useState } from 'react';
-import { BotonActualizar, BotonEstado, BotonPausa, BotonReanuda, BotonDesviar } from './';
+import { BotonActualizar, BotonEstado, BotonPausa, BotonReanuda, BotonDesviar } from '.';
 
 //Funcion para crear las futuras filas (rows)
-function createData(nameImpresora, numTrabajos, numAlmacen, ip, nombreCorto) {
+function createData(nameImpresora, numTrabajos, numAlmacen, ip, nombreCorto,) {
   return { nameImpresora, numTrabajos, numAlmacen, ip, nombreCorto };
 }
 
 //Llamada a la funcion que genera las filas pasándole datos de relleno iniciales
-const impresorasGranada = [
-  createData('18ALAV101', 0, 'RG18', '172.30.120.246'),
-  createData('18ALAV102', 0, 'RG18', '172.30.120.243'),
-  createData('18ALAV201', 0, 'RG18', '172.30.120.246'),
-  createData('18ALAV202', 0, 'RG18', '172.30.120.243'),
-  createData('18ALDEV01', 0, 'RG18', '172.30.120.247'),
-  createData('18ALEXP01', 0, 'RG18', '172.30.120.245'),
-  createData('18ALJEF01', 0, 'RG18', '172.30.120.248'),
-  createData('18ATTOM01', 0, 'RG18', '172.30.120.249'),
-  createData('18ATTOM02', 0, 'RG18', '172.30.120.244')
+const impresorasAlbacete = [
+  createData('08ALAV101', 0, 'RG08', '172.30.41.240'),
+  createData('08ALAV102', 0, 'RG08', '172.30.41.241'),
+  createData('08ALAV201', 0, 'RG08', '172.30.41.242'),
+  createData('08ALAV202', 0, 'RG08', '172.30.41.243'),
+  createData('08ALDEV01', 0, 'RG08', '172.30.41.244'),
+  createData('08ALEXP01', 0, 'RG08', '172.30.41.245'),
+  createData('08ALJEF01', 0, 'RG08', '172.30.41.246')
 ]
- 
-export const TablaGranada = React.memo(() => {
+
+export const TablaAlbacete = React.memo(() => {
 
   const [, setValor] = useState({});
 
   const recibirDatosActualizados = useCallback((data) => {
 
-    impresorasGranada.find(printer => {
+    impresorasAlbacete.find(printer => {
       //Si la impresora coincide y los datos son distintos de los que ya teníamos entonces tralarí 
       if (data?.impresora === printer.nameImpresora) {
         printer.numTrabajos = data.valor
@@ -53,7 +51,7 @@ export const TablaGranada = React.memo(() => {
         </tr>
       </thead>
       <tbody>
-        {impresorasGranada.map((impresora) => (
+        {impresorasAlbacete.map((impresora) => (
           <tr key={impresora.nameImpresora}>
             <td>{impresora.nameImpresora}</td>
             <td>{impresora.numTrabajos}</td>
@@ -69,4 +67,5 @@ export const TablaGranada = React.memo(() => {
   );
 });
 
-TablaGranada.displayName = 'TablaGranada';
+
+TablaAlbacete.displayName = 'TablaAlbacete';

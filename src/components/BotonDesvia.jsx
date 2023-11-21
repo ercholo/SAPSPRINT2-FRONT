@@ -2,17 +2,17 @@ import { DialogDesviar } from './';
 import { Spinner } from '../ui/components';
 import { memo, useState } from 'react';
 import PropTypes from 'prop-types';
-import { usePausar } from '../hooks/usePausar';
+import { useImpresora } from '../hooks/useImpresora';
 
 //uso el memo para que no renderice los botones cuando el componente padre (tablaPrincipal) cambia el estado actualizando la tabla
 export const BotonDesviar = memo(({ printer }) => {
 
-    const { getFetch, isLoading, data } = usePausar(printer, 'estado');
+    const { estado, isLoading, data } = useImpresora(printer);
 
     const [isOpen, setIsOpen] = useState(false);
 
     const onCheckDesvio = async () => {
-        await getFetch();
+        await estado();
         setIsOpen(true);
     }
 
@@ -38,7 +38,6 @@ export const BotonDesviar = memo(({ printer }) => {
 });
 
 BotonDesviar.displayName = 'BotonActualizar';
-export default BotonDesviar;
 
 BotonDesviar.propTypes = {
     printer: PropTypes.string,

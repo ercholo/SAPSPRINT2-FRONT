@@ -13,7 +13,7 @@ export const DialogEstado = memo(({ data, printer, onClose, isOpen }) => {
             keyboard: false
         });
 
-        // Mostrar el modal al abrir
+        // renderizar el modal
         if (isOpen) {
             myModal.show();
         }
@@ -55,7 +55,6 @@ export const DialogEstado = memo(({ data, printer, onClose, isOpen }) => {
 });
 
 DialogEstado.displayName = 'DialogEstado';
-export default DialogEstado;
 
 DialogEstado.propTypes = {
     printer: PropTypes.string,

@@ -1,5 +1,5 @@
 import { useState, memo } from 'react';
-import { usePausar } from '../hooks/usePausar';
+import { useImpresora } from '../hooks/useImpresora';
 import { DialogEstado } from './';
 import { Spinner } from '../ui/components';
 import PropTypes from 'prop-types';
@@ -7,12 +7,12 @@ import PropTypes from 'prop-types';
 //uso el memo para que no renderice los botones cuando el componente padre (tablaPrincipal) cambia el estado actualizando la tabla
 export const BotonEstado = memo(({ printer }) => {
 
-    const { getFetch, isLoading, data } = usePausar(printer, 'estado');
+    const { estado, isLoading, data } = useImpresora(printer);
 
     const [isOpen, setIsOpen] = useState(false);
 
     const onEstado = async() => {
-        await getFetch();
+        await estado();
         setIsOpen(true);
     };
 
@@ -39,7 +39,6 @@ export const BotonEstado = memo(({ printer }) => {
 });
 
 BotonEstado.displayName = 'BotonActualizar';
-export default BotonEstado;
 
 BotonEstado.propTypes = {
     printer: PropTypes.string,

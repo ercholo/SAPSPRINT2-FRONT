@@ -1,15 +1,13 @@
 import React, { useCallback, useEffect, useState } from 'react';
 import { BotonActualizar, BotonEstado, BotonPausa, BotonReanuda, BotonDesviar } from './';
 
-
 //Funcion para crear las futuras filas (rows)
-function createData(nameImpresora, numTrabajos, numAlmacen, ip) {
-  return { nameImpresora, numTrabajos, numAlmacen, ip };
+function createData(nameImpresora, numTrabajos, numAlmacen, ip, nombreCorto) {
+  return { nameImpresora, numTrabajos, numAlmacen, ip, nombreCorto };
 }
 
 //Creamos las filas
 const impresorasMelilla = [
-
   createData('17ADCOM01', 0, 'RG17', '172.30.95.243'),
   createData('17ALAV101', 0, 'RG17', '172.30.95.247'),
   createData('17ALAV102', 0, 'RG17', '172.30.95.242'),
@@ -17,7 +15,6 @@ const impresorasMelilla = [
   createData('17ALGVO01', 0, 'RG17', '172.30.95.242'),
   createData('17ALJEF01', 0, 'RG17', '172.30.95.245'),
   createData('17ATTOM01', 0, 'RG17', '172.30.95.246')
-
 ]
 
 export const TablaMelilla = React.memo(() => {
@@ -25,8 +22,6 @@ export const TablaMelilla = React.memo(() => {
   const [, setValor] = useState({});
 
   const recibirDatosActualizados = useCallback((data) => {
-
-    console.log(data);
 
     impresorasMelilla.find(printer => {
       //Si la impresora coincide y los datos son distintos de los que ya teníamos entonces tralarí 
@@ -71,6 +66,5 @@ export const TablaMelilla = React.memo(() => {
     </table>
   );
 });
-
 
 TablaMelilla.displayName = 'TablaMelilla';

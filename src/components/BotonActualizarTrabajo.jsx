@@ -10,13 +10,15 @@ export const BotonActualizar = memo(({ printer, recibirDatos }) => {
 
     const [loading, setLoading] = useState(false);
 
+    const server = printer.startsWith('16') || printer.startsWith('17') || printer.startsWith('18') ? 'sapsprint2' : 'sapsprint';
+
     const onActualizar = async () => {
 
         setLoading(true);
 
         try {
 
-            const res = await fetch(`http://172.30.5.181:16665/impresoras/${printer}`, {
+            const res = await fetch(`http://172.30.5.181:16665/impresoras/${printer}/${server}`, {
                 method: 'GET',
                 headers: {
                     'Authorization': `Bearer ${keycloak.token}`
@@ -24,16 +26,12 @@ export const BotonActualizar = memo(({ printer, recibirDatos }) => {
             });
 
             const data = await res.json();
-
             recibirDatos(data)
-            // console.log(data)
-
             setLoading(false);
 
         } catch (error) {
-            console.log(error);
+            console.error(error);
         }
-
 
     }
 
@@ -53,7 +51,6 @@ export const BotonActualizar = memo(({ printer, recibirDatos }) => {
 });
 
 BotonActualizar.displayName = 'BotonActualizar';
-export default BotonActualizar;
 
 BotonActualizar.propTypes = {
     printer: PropTypes.string,

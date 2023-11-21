@@ -1,15 +1,15 @@
 import { memo } from 'react';
-import { usePausar } from '../hooks/usePausar';
+import { useImpresora } from '../hooks/useImpresora';
 import PropTypes from 'prop-types';
 import { SnackbarAlert } from '../ui/components';
 
 //uso el memo para que no renderice los botones cuando el componente padre (tablaPrincipal) cambia el estado actualizando la tabla
 export const BotonPausa = memo(({ printer }) => {
 
-    const { getFetch, isLoading, alert, setAlert } = usePausar(printer, 'pausa');
+    const { pausa, isLoading, alert, setAlert } = useImpresora(printer);
 
     const onPausar = async() => {
-        await getFetch();
+        await pausa();
     }
 
     return (
@@ -28,7 +28,6 @@ export const BotonPausa = memo(({ printer }) => {
 });
 
 BotonPausa.displayName = 'BotonActualizar';
-// export default BotonPausa;
 
 BotonPausa.propTypes = {
     printer: PropTypes.string,
