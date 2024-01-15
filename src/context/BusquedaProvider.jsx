@@ -6,9 +6,11 @@ export const BusquedaProvider = ({ children }) => {
 
     const [terminoBusqueda, setTerminoBusqueda] = useState('');
 
+    const [ busqueda, setBusqueda ] = useState(false);
+
     return (
         
-        <BusquedaContext.Provider value={{ terminoBusqueda, setTerminoBusqueda }}>
+        <BusquedaContext.Provider value={{ terminoBusqueda, setTerminoBusqueda, busqueda, setBusqueda }}>
             {children}
         </BusquedaContext.Provider>
     )

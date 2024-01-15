@@ -1,7 +1,7 @@
 import { ReactKeycloakProvider } from "@react-keycloak/web";
 import { AppRouter } from "./router/AppRouter";
 import keycloak from "./keycloak";
-import { BusquedaProvider } from "./context/busquedaProvider";
+import { BusquedaProvider } from "./context/BusquedaProvider";
 
 export const SapsprintApp2 = () => {
   return (

@@ -1,6 +1,7 @@
 import React, { useCallback, useEffect, useState, useContext } from 'react';
 import { BotonActualizar, BotonEstado, BotonPausa, BotonReanuda, BotonDesviar } from '.';
 import { BusquedaContext } from '../context/context';
+import { useParams } from 'react-router-dom';
 
 //Funcion para crear las futuras filas (rows)
 function createData(nameImpresora, numTrabajos, numAlmacen, ip, nombreCorto) {
@@ -105,15 +106,18 @@ const impresorasTodas = [
     createData('11ALENT01', 0, 'RG11', '172.30.102.232'),
     createData('11ALENT02', 0, 'RG11', '172.30.102.197'),
     createData('11ALEST01', 0, 'RG11', '172.30.102.239'),
-    createData('11ALEST02', 0, 'RG11', '172.30.102.236'),
     createData('11ALFRI01', 0, 'RG11', '172.30.102.238'),
     createData('11ALPKG01', 0, 'RG11', '172.30.102.235'),
     createData('11ALSAF01', 0, 'RG11', '172.30.102.240'),
     createData('11ALSAF02', 0, 'RG11', '172.30.102.241')
 ]
 
-export const TablaBusqueda = React.memo(() => {
 
+
+export const TablaBusqueda = React.memo(() => {
+    
+    const params = useParams();
+    console.log(params)
     const [, setValor] = useState({});
 
     const { terminoBusqueda } = useContext(BusquedaContext);

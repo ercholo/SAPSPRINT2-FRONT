@@ -1,9 +1,9 @@
-import { Link, NavLink, useLocation, useNavigate } from 'react-router-dom';
+import { Link, NavLink, useLocation, useNavigate, useParams } from 'react-router-dom';
 import { useKeycloak } from '@react-keycloak/web'
 import { useContext, useEffect, useState } from 'react';
-import 'bootstrap/dist/js/bootstrap.bundle.min.js';
 import { BusquedaContext } from '../../context/context';
 import $ from 'jquery';
+import 'bootstrap/dist/js/bootstrap.bundle.min.js';
 
 export const Navbar = () => {
 
@@ -14,6 +14,9 @@ export const Navbar = () => {
 
     const location = useLocation();
     const navigate = useNavigate();
+
+    const params = useParams();
+    console.log(params)
 
     //¿Estás logueado? pa'dentro
     useState(() => {
@@ -27,8 +30,7 @@ export const Navbar = () => {
     }
 
     //Pasamos el término de búsqueda al context para tenerlo de manera global
-    const { setTerminoBusqueda } = useContext(BusquedaContext);
-
+    const { setTerminoBusqueda, setBusqueda } = useContext(BusquedaContext);
 
     const onBusqueda = (e) => {
         e.preventDefault();
@@ -37,7 +39,11 @@ export const Navbar = () => {
         if (valorInicial.length >= 4) {
             setTerminoBusqueda(valorInicial);
             setValorInicial('');
-            navigate("/busqueda")
+            setBusqueda(true);
+            navigate(`/busqueda/${valorInicial}`, {
+                replace: true
+            })
+
         } else {
             setValorInicial('');
             alert('El término de búsqueda debe tener al menos 4 caracteres.');
@@ -107,21 +113,21 @@ export const Navbar = () => {
                                 <NavLink className="nav-link dropdown-toggle" to="/" role="button" data-bs-toggle="dropdown" aria-expanded="false">
                                     Almacén
                                 </NavLink>
-                                <ul className="dropdown-menu">
-                                    <li><Link className="dropdown-item mt-2" to="/albacete">Albacete</Link></li>
-                                    <li><Link className="dropdown-item mt-2" to="/alicante">Alicante</Link></li>
-                                    <li><Link className="dropdown-item mt-2" to="/almeria">Almeria</Link></li>
-                                    <li><Link className="dropdown-item mt-2" to="/barcelona">Barcelona</Link></li>
-                                    <li><Link className="dropdown-item mt-2" to="/cartagena">Cartagena</Link></li>
-                                    <li><Link className="dropdown-item mt-2" to="/gerona">Gerona</Link></li>
-                                    <li><Link className="dropdown-item mt-2" to="/granada">Granada</Link></li>
-                                    <li><Link className="dropdown-item mt-2" to="/madrid">Madrid</Link></li>
-                                    <li><Link className="dropdown-item mt-2" to="/malaga">Malaga</Link></li>
-                                    <li><Link className="dropdown-item mt-2" to="/melilla">Melilla</Link></li>
-                                    <li><Link className="dropdown-item mt-2" to="/santomera">Santomera</Link></li>
-                                    <li><Link className="dropdown-item mt-2" to="/tortosa">Tortosa</Link></li>
-                                    <li><Link className="dropdown-item mt-2" to="/ribarroja">Ribarroja</Link></li>
-                                    <li><Link className="dropdown-item mt-2" to="/token">Token</Link></li>
+                                <ul className="dropdown-menu list-group list-group-flush">
+                                    <li><Link className="dropdown-item mt-2 list-group-item" to="/albacete">Albacete</Link></li>
+                                    <li><Link className="dropdown-item mt-2 list-group-item" to="/alicante">Alicante</Link></li>
+                                    <li><Link className="dropdown-item mt-2 list-group-item" to="/almeria">Almeria</Link></li>
+                                    <li><Link className="dropdown-item mt-2 list-group-item" to="/barcelona">Barcelona</Link></li>
+                                    <li><Link className="dropdown-item mt-2 list-group-item" to="/cartagena">Cartagena</Link></li>
+                                    <li><Link className="dropdown-item mt-2 list-group-item" to="/gerona">Gerona</Link></li>
+                                    <li><Link className="dropdown-item mt-2 list-group-item" to="/granada">Granada</Link></li>
+                                    <li><Link className="dropdown-item mt-2 list-group-item" to="/madrid">Madrid</Link></li>
+                                    <li><Link className="dropdown-item mt-2 list-group-item" to="/malaga">Malaga</Link></li>
+                                    <li><Link className="dropdown-item mt-2 list-group-item" to="/melilla">Melilla</Link></li>
+                                    <li><Link className="dropdown-item mt-2 list-group-item" to="/santomera">Santomera</Link></li>
+                                    <li><Link className="dropdown-item mt-2 list-group-item" to="/tortosa">Tortosa</Link></li>
+                                    <li><Link className="dropdown-item mt-2 list-group-item" to="/ribarroja">Ribarroja</Link></li>
+                                    <li><Link className="dropdown-item mt-2 list-group-item" to="/token">Token</Link></li>
                                     <li><hr className="dropdown-divider" /></li>
                                 </ul>
                             </li>

@@ -17,7 +17,6 @@ export const DialogDesviar = memo(({ data, printer, onClose, isOpen }) => {
 
     const onDesviar = async (impresoraDestino) => {
         setImpresoraDestino(impresoraDestino);
-        console.log(`onDesviar ${impresoraDestino}`)
         await desviar(impresoraDestino);
     }
 
