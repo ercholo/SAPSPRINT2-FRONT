@@ -2,10 +2,10 @@ import { useState } from "react";
 import { useKeycloak } from '@react-keycloak/web';
 
 export const useImpresora = (printer) => {
-    
+
     const { keycloak } = useKeycloak();
 
-     // Si empieza por 16, 17 o 18 entonces el servidor es sapsprint2
+    // Si empieza por 16, 17 o 18 entonces el servidor es sapsprint2
     const server = printer.startsWith('16') || printer.startsWith('17') || printer.startsWith('18') ? 'sapsprint2' : 'sapsprint';
 
     const initialState = {
@@ -19,7 +19,7 @@ export const useImpresora = (printer) => {
     const [alert, setAlert] = useState(false);
 
     const fetchData = async (url) => {
-        
+
         setState({
             ...initialState,
             isLoading: true,
@@ -33,23 +33,29 @@ export const useImpresora = (printer) => {
                 },
             });
 
+            if (!res.ok) {
+                throw new Error(`Error en la solicitud: ${res.status}`);
+            }
+
             const data = await res.json();
             
             setState({
                 data,
                 isLoading: false,
                 hasError: null,
-                isOk: data.ok,
+                isOk: data.ok
             });
-            
-            setAlert(data.ok);
 
+            setAlert(data.ok);
+            
         } catch (error) {
-            console.error(error);
+            // console.error(error);
+            alert.error(error);
             setState({
                 ...initialState,
                 hasError: error.message,
             });
+            throw error;
         }
         
     };
@@ -76,8 +82,8 @@ export const useImpresora = (printer) => {
         data: state.data,
         isLoading: state.isLoading,
         isOk: state.isOk,
+        error: state.hasError,
         alert,
         setAlert,
-        error: state.hasError,
     };
 };

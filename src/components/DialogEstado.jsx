@@ -4,7 +4,7 @@ import PropTypes from 'prop-types';
 import BotonRestableceIP from "./BotonRestableceIP";
 
 
-export const DialogEstado = memo(({ data, printer, onClose, isOpen }) => {
+export const DialogEstado = memo(({ data, printer, onClose, isOpen, setAbrirSnack }) => {
 
     useEffect(() => {
 
@@ -42,8 +42,8 @@ export const DialogEstado = memo(({ data, printer, onClose, isOpen }) => {
                         </ul>
                     </div>
                     <div className="modal-footer d-flex ">
-                        <BotonRestableceIP printer={data.impresora} isDisabled={data.desviada ? false : true} onClose={onClose} />
-                        <button type="button" className="btn btn-outline-danger" onClick={onClose}>
+                        <BotonRestableceIP printer={data.impresora} isDisabled={data.desviada ? false : true} onClose={onClose} setAbrirSnack={setAbrirSnack} />
+                        <button type="button" title='Cerrar' className="btn btn-outline-danger" onClick={onClose}>
                             <i className="bi bi-x-circle"></i>
                         </button>
                     </div>
@@ -59,6 +59,7 @@ DialogEstado.displayName = 'DialogEstado';
 DialogEstado.propTypes = {
     printer: PropTypes.string,
     onClose: PropTypes.func,
+    setAbrirSnack: PropTypes.func,
     setIsOpen: PropTypes.func,
     isOpen: PropTypes.bool,
     data: PropTypes.object

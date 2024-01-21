@@ -35,6 +35,10 @@ export const Navbar = () => {
     const onBusqueda = (e) => {
         e.preventDefault();
 
+        if (valorInicial.toUpperCase() === 'ALAV') return null
+
+        if (valorInicial.length < 8 && valorInicial.includes("172.") ) return null
+
         // Por lo menos 4 caracteres en la búsuqeda
         if (valorInicial.length >= 4) {
             setTerminoBusqueda(valorInicial);
@@ -64,7 +68,6 @@ export const Navbar = () => {
                 <div className="d-flex align-items-center">
                     <button
                         className="navbar-toggler small-toggler-icon"
-
                         type="button"
                         data-bs-toggle="offcanvas"
                         data-bs-target="#offcanvasNavbar"
@@ -88,12 +91,13 @@ export const Navbar = () => {
                             aria-label="Search"
                             name="search"
                             value={valorInicial}
+                            title='Buscar'
                             onChange={(e) => setValorInicial(e.target.value)}
                         />
-                        <button className="btn btn-outline-success" type="submit">Buscar</button>
+                        <button className="btn btn-outline-success" type="submit" title='Buscar'>Buscar</button>
                     </form>
 
-                    <button onClick={onLogOut} className="btn btn-outline-primary" >
+                    <button onClick={onLogOut} className="btn btn-outline-primary" title='Salir'>
                         <i className="bi bi-box-arrow-right"></i>
                     </button>
                 </div>
@@ -110,7 +114,7 @@ export const Navbar = () => {
                             </li>
 
                             <li className="nav-item dropdown">
-                                <NavLink className="nav-link dropdown-toggle" to="/" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                <NavLink className="nav-link dropdown-toggle" to="/" role="button" aria-expanded="false">
                                     Almacén
                                 </NavLink>
                                 <ul className="dropdown-menu list-group list-group-flush">
@@ -128,7 +132,7 @@ export const Navbar = () => {
                                     <li><Link className="dropdown-item mt-2 list-group-item" to="/tortosa">Tortosa</Link></li>
                                     <li><Link className="dropdown-item mt-2 list-group-item" to="/ribarroja">Ribarroja</Link></li>
                                     <li><Link className="dropdown-item mt-2 list-group-item" to="/token">Token</Link></li>
-                                    <li><hr className="dropdown-divider" /></li>
+                                    {/* <li><hr className="dropdown-divider" /></li> */}
                                 </ul>
                             </li>
                         </ul>

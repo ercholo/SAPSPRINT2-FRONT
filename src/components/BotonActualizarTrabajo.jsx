@@ -42,6 +42,7 @@ export const BotonActualizar = memo(({ printer, recibirDatos }) => {
                 className="btn btn-outline-success"
                 disabled={loading}
                 onClick={onActualizar}
+                title='Actualizar trabajos'
             >
                 <i className="bi bi-cloud-download-fill"></i>
             </button>

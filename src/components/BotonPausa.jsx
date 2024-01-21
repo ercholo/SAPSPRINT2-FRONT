@@ -1,14 +1,14 @@
 import { memo } from 'react';
 import { useImpresora } from '../hooks/useImpresora';
 import PropTypes from 'prop-types';
-import { SnackbarAlert } from '../ui/components';
+import { SnackbarAlert, SnackbarAlertError } from '../ui/components';
 
 //uso el memo para que no renderice los botones cuando el componente padre (tablaPrincipal) cambia el estado actualizando la tabla
 export const BotonPausa = memo(({ printer }) => {
 
     const { pausa, isLoading, alert, setAlert } = useImpresora(printer);
 
-    const onPausar = async() => {
+    const onPausar = async () => {
         await pausa();
     }
 
@@ -22,7 +22,8 @@ export const BotonPausa = memo(({ printer }) => {
             >
                 <i className="bi bi-pause-fill"></i>
             </button>
-            {alert && <SnackbarAlert accion={"Pausa"} alert={alert} setAlert={setAlert}/>}
+            {alert === true && <SnackbarAlert accion={"Pausa"} alert={alert} setAlert={setAlert} />}
+            {alert === "error" && <SnackbarAlertError accion={"Pausa"} alert={alert} setAlert={setAlert} />}
         </>
     )
 });

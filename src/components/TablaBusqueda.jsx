@@ -112,8 +112,6 @@ const impresorasTodas = [
     createData('11ALSAF02', 0, 'RG11', '172.30.102.241')
 ]
 
-
-
 export const TablaBusqueda = React.memo(() => {
     
     const params = useParams();

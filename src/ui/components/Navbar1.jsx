@@ -74,7 +74,7 @@ export const Navbar = () => {
                         <button className="btn btn-outline-success" type="submit">Search</button>
                     </form>
 
-                    <button onClick={onLogOut} className="btn btn-outline-primary ms-2" >
+                    <button onClick={onLogOut} title='Salir' className="btn btn-outline-primary ms-2" >
                         <i className="bi bi-box-arrow-right"></i>
                     </button>
 

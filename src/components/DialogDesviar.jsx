@@ -2,23 +2,32 @@ import { Modal } from "bootstrap";
 import { memo, useEffect, useState } from "react";
 import PropTypes from 'prop-types';
 import { useImpresora } from '../hooks/useImpresora';
-import { SnackbarAlert, Spinner } from "../ui/components";
+import { Spinner } from "../ui/components";
 import { impresorasTodas } from "../consts/consts";
 
-export const DialogDesviar = memo(({ data, printer, onClose, isOpen }) => {
+export const DialogDesviar = memo(({ data, printer, onClose, isOpen, setAbrirSnack }) => {
 
     //Si existe la prop(cuando llega) coge los dos primeros caracteres para saber de que almacen es la imperesora que se quiere desviar.
     const almImp = data?.impresora?.substring(0, 2) || '';
 
     const [impresoraDestino, setImpresoraDestino] = useState(null);
-
-    const { desviar, isLoading, alert, setAlert } = useImpresora(printer, impresoraDestino);
-
+    const { desviar, isLoading, alert } = useImpresora(printer, impresoraDestino);
 
     const onDesviar = async (impresoraDestino) => {
+
         setImpresoraDestino(impresoraDestino);
-        await desviar(impresoraDestino);
-    }
+
+        try {
+            await desviar(impresoraDestino);
+        } catch (error) {
+            console.error(error);
+        }
+    };
+
+    useEffect(() => {
+        setAbrirSnack(alert);
+        if (alert) onClose();
+    }, [alert]);
 
     useEffect(() => {
 
@@ -69,6 +78,7 @@ export const DialogDesviar = memo(({ data, printer, onClose, isOpen }) => {
                                                 key={impresora.impresora}
                                                 onClick={() => onDesviar(impresora.impresora)}
                                                 id={impresora.impresora}
+                                                title="Selecciona impresora desvío"
                                             >
                                                 {impresora.impresora}
                                             </button>
@@ -76,7 +86,6 @@ export const DialogDesviar = memo(({ data, printer, onClose, isOpen }) => {
                                     ))
                         }
                         {isLoading ? <Spinner loading={isLoading} /> : null}
-                        {alert && <SnackbarAlert accion={"Desviada de manera"} alert={alert} setAlert={setAlert} />}
                     </div>
                     <div className="modal-footer d-flex ">
                         <button type="button" className="btn btn-outline-danger" onClick={onClose}>
@@ -95,6 +104,8 @@ DialogDesviar.displayName = 'DialogEstado';
 DialogDesviar.propTypes = {
     printer: PropTypes.string,
     onClose: PropTypes.func,
+    setAbrirSnack: PropTypes.func,
+    setEstaOk: PropTypes.func,
     setIsOpen: PropTypes.func,
     isOpen: PropTypes.bool,
     data: PropTypes.object,
