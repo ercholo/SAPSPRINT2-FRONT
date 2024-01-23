@@ -62,7 +62,7 @@ export const Navbar = () => {
 
     return (
 
-        <nav className="navbar bg-body-tertiary fixed-top">
+        <nav className="navbar bg-body-secondary fixed-top">
             <div className="container-fluid">
 
                 <div className="d-flex align-items-center">
